@@ -32,14 +32,14 @@ const OrbitDB = require('orbit-db')
 const KeyArrayStore = require('orbit-db-kastore')
 
 const ipfs = new IPFS()
-OrbitDB.addDatabaseType(KeyArrayStore.type, KeyArrayStore)
+OrbitDB.addDatabaseType("keyarray", KeyArrayStore)
 const orbitdb = await OrbitDB.createInstance(ipfs)
 ```
 
 Get a key-array database and add one or multiple entry to it:
 
 ```javascript
-const options = Object.assign({ type: KeyArrayStore.type }, { create: true })
+const options = Object.assign({ type: "keyarray" }, { create: true, disableDelete: false }) // yes you can disable delete command by setting this to true (it is optional and false by default)
 const ka = await orbitdb.open('settings', options)
 ka.add('volume', '100')
   .then(() => {
@@ -57,7 +57,7 @@ ka.add('volume', ['100', '200'])
 Later, when the database contains data, load the history and query when ready:
 
 ```javascript
-const options = Object.assign({ type: KeyArrayStore.type }, {})
+const options = Object.assign({ type: "keyarray" }, {})
 const ka = await orbitdb.open('settings', options)
 ka.events.on('ready', () => {
   console.log(ka.get('volume'))
@@ -67,14 +67,14 @@ ka.events.on('ready', () => {
 
 ## API
 
-### orbitdb.open(name|address, Object.assign({ type: KeyArrayStore.type }, options))
+### orbitdb.open(name|address, Object.assign({ type: "keyarray" }, options))
 
 > Creates and opens a keyarray database
 
 Returns a `Promise` that resolves to a [`KeyArrayStore` instance](https://github.com/ThalusA/orbit-db-kastore).
 
 ```javascript
-const options = Object.assign({ type: KeyArrayStore.type }, { create: true })
+const options = Object.assign({ type: "keyarray" }, { create: true })
 const db = await orbitdb.open('application.settings', options)
 // Or:
 const db = await orbitdb.open(anotherkadb.address, options)
