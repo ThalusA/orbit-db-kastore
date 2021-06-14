@@ -1,4 +1,4 @@
-# orbit-db-kvstore
+# orbit-db-kastore
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby) [![Matrix](https://img.shields.io/badge/matrix-%23orbitdb%3Apermaweb.io-blue.svg)](https://riot.permaweb.io/#/room/#orbitdb:permaweb.io) [![npm version](https://badge.fury.io/js/orbit-db-kastore.svg)](https://badge.fury.io/js/orbit-db-kastore)
 
@@ -77,7 +77,7 @@ Returns a `Promise` that resolves to a [`KeyArrayStore` instance](https://github
 const options = Object.assign({ type: KeyArrayStore.type }, { create: true })
 const db = await orbitdb.open('application.settings', options)
 // Or:
-const db = await orbitdb.open(anotherkvdb.address, options)
+const db = await orbitdb.open(anotherkadb.address, options)
 ```
 
 Module: [orbit-db-kastore](https://github.com/ThalusA/orbit-db-kastore)
