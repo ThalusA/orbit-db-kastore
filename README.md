@@ -1,13 +1,12 @@
 # orbit-db-kvstore
 
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby) [![Matrix](https://img.shields.io/badge/matrix-%23orbitdb%3Apermaweb.io-blue.svg)](https://riot.permaweb.io/#/room/#orbitdb:permaweb.io) [![Discord](https://img.shields.io/discord/475789330380488707?color=blueviolet&label=discord)](https://discord.gg/cscuf5T)
-[![npm version](https://badge.fury.io/js/orbit-db-kvstore.svg)](https://badge.fury.io/js/orbit-db-kvstore)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/orbitdb/Lobby) [![Matrix](https://img.shields.io/badge/matrix-%23orbitdb%3Apermaweb.io-blue.svg)](https://riot.permaweb.io/#/room/#orbitdb:permaweb.io) [![npm version](https://badge.fury.io/js/orbit-db-kastore.svg)](https://badge.fury.io/js/orbit-db-kastore)
 
-> Key-Value database for orbit-db
+> Key-Array database for orbit-db
 
-A key-value database just like your favourite key-value database.
+A key-array database just like your favourite key-array database.
 
-Used in [orbit-db](https://github.com/haadcode/orbit-db).
+Used in [ipfs-browser](https://github.com/ThalusA/ipfs-browser).
 
 ## Table of Contents
 
@@ -18,8 +17,9 @@ Used in [orbit-db](https://github.com/haadcode/orbit-db).
 - [License](#license)
 
 ## Install
-```
-npm install orbit-db ipfs
+
+```bash
+npm install orbit-db ipfs orbit-db-kastore
 ```
 
 ## Usage
@@ -29,41 +29,101 @@ First, create an instance of OrbitDB:
 ```javascript
 const IPFS = require('ipfs')
 const OrbitDB = require('orbit-db')
+const KeyArrayStore = require('orbit-db-kastore')
 
 const ipfs = new IPFS()
+OrbitDB.addDatabaseType(KeyArrayStore.type, KeyArrayStore)
 const orbitdb = await OrbitDB.createInstance(ipfs)
 ```
 
-Get a key-value database and add an entry to it:
+Get a key-array database and add one or multiple entry to it:
 
 ```javascript
-const kv = await orbitdb.kvstore('settings')
-kv.put('volume', '100')
+const options = Object.assign({ type: 'keyarray' }, { create: true })
+const ka = await orbitdb.open('settings', options)
+ka.add('volume', '100')
   .then(() => {
-    console.log(kv.get('volume'))
-    // 100
+    console.log(ka.get('volume'))
+    // [100]
+  })
+// Or:
+ka.add('volume', ['100', '200'])
+  .then(() => {
+    console.log(ka.get('volume'))
+    // [100, 200]
   })
 ```
 
 Later, when the database contains data, load the history and query when ready:
 
 ```javascript
-const kv = await orbitdb.kvstore('settings')
-kv.events.on('ready', () => {
-  console.log(kv.get('volume'))
-  // 100
+const options = Object.assign({ type: 'keyarray' }, {})
+const ka = await orbitdb.open('settings', options)
+ka.events.on('ready', () => {
+  console.log(ka.get('volume'))
+  // [100] or [100, 200]
 })
 ```
 
 ## API
 
-See [orbit-db's API Documenations](https://github.com/haadcode/orbit-db/blob/master/API.md#kvstorename) for full details.
+### orbitdb.open(name|address, Object.assign({ type: 'keyarray' }, options))
+
+> Creates and opens a keyarray database
+
+Returns a `Promise` that resolves to a [`KeyArrayStore` instance](https://github.com/ThalusA/orbit-db-kastore).
+
+```javascript
+const options = Object.assign({ type: 'keyarray' }, { create: true })
+const db = await orbitdb.open('application.settings', options)
+// Or:
+const db = await orbitdb.open(anotherkvdb.address, options)
+```
+
+Module: [orbit-db-kastore](https://github.com/ThalusA/orbit-db-kastore)
+
+#### append(key, value|values)
+
+Returns a `Promise` that resolves to a `String` that is the multihash of the entry.
+
+  ```javascript
+  await db.append('hello', { name: 'World' })
+  // Or:
+  await db.append('hello', [{ name: 'World' }])
+  ```
+
+#### values(key)
+
+Returns an `Array` of `Object` with the contents of the entry.
+
+  ```javascript
+  const values = db.values('hello')
+  // [{ name: 'World' }]
+  ```
+
+#### delete(key)
+
+Deletes the `Array` of `Object` associated with `key`. Returns a `Promise` that resolves to a `String` that is the multihash of the deleted entry.
+
+  ```javascript
+  const hash = await db.delete('hello')
+  // QmbYHhnXEdmdfUDzZKeEg7HyG2f8veaF2wBrYFcSHJ3mvd
+  ```
+
+#### all
+
+Returns an `Object` with the contents of all entries in the index.
+
+  ```javascript
+  const value = db.all
+  // { hello: [{ name: 'World' }] }
+  ```
 
 ## Contributing
 
-If you think this could be better, please [open an issue](https://github.com/orbitdb/orbit-db-kvstore/issues/new)!
+If you think this could be better, please [open an issue](https://github.com/ThalusA/orbit-db-kastore/issues/new)!
 
-Please note that all interactions in [@orbitdb](https://github.com/orbitdb) fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
+Please note that all interactions in [orbit-db-kastore](https://github.com/ThalusA/orbit-db-kastore) fall under our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## License
 

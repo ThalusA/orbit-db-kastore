@@ -1,10 +1,10 @@
 {
-  "name": "orbit-db-kvstore",
-  "version": "1.12.0",
-  "description": "Key-Value Store for orbit-db",
-  "main": "src/KeyValueStore.js",
-  "homepage": "https://github.com/orbitdb/orbit-db-kvstore",
-  "bugs": "https://github.com/orbitdb/orbit-db-kvstore/issues",
+  "name": "orbit-db-kastore",
+  "version": "1.0.0",
+  "description": "Key-Array Store for orbit-db",
+  "main": "src/KeyArrayStore.js",
+  "homepage": "https://github.com/ThalusA/orbit-db-kastore",
+  "bugs": "https://github.com/ThalusA/orbit-db-kastore/issues",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,10 +12,10 @@
     "orbit-db",
     "orbitdb",
     "kv",
-    "key-value",
-    "kv-store"
+    "key-array",
+    "ka-store"
   ],
-  "author": "Haad",
+  "author": "ThalusA",
   "contributors": [
     "haadcode",
     "greenkeeperio-bot",
@@ -29,8 +29,6 @@
     "orbit-db-store": "4.x"
   },
   "localMaintainers": [
-    "haad <haad@haja.io>",
-    "shamb0t <shams@haja.io>",
-    "hajamark <mark@haja.io>"
+    "ThalusA <alexandre.monierc@gmail.com>"
   ]
 }
