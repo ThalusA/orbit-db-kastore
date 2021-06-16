@@ -6,12 +6,13 @@
   "homepage": "https://github.com/ThalusA/orbit-db-kastore",
   "bugs": "https://github.com/ThalusA/orbit-db-kastore/issues",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "keywords": [
     "orbit-db",
     "orbitdb",
-    "kv",
+    "ka",
     "key-array",
     "ka-store"
   ],
@@ -25,10 +26,14 @@
     "adam-palazzo"
   ],
   "license": "MIT",
-  "peerDependencies": {
-    "orbit-db-store": "4.x"
-  },
   "localMaintainers": [
     "ThalusA <alexandre.monierc@gmail.com>"
-  ]
+  ],
+  "devDependencies": {
+    "orbit-db-store": "^4.1.0",
+    "path-browserify": "^1.0.1",
+    "util": "^0.12.4",
+    "webpack": "^5.39.0",
+    "webpack-cli": "^4.7.2"
+  }
 }
