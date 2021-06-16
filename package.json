@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "Key-Array Store for orbit-db",
   "main": "src/KeyArrayStore.js",
+  "browser": "dist/orbitdb.kastore.min.js",
   "homepage": "https://github.com/ThalusA/orbit-db-kastore",
   "bugs": "https://github.com/ThalusA/orbit-db-kastore/issues",
   "scripts": {
